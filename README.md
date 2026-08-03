@@ -173,13 +173,6 @@ AWS-Hospital-Notification-System
 ├── README.md
 
 
-```
-
-Project Folder
-
-![Project Structure](screenshots/10-project-structure.png)
-
----
 
 # 🔄 Infrastructure Workflow
 ```text
