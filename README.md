@@ -1028,6 +1028,7 @@ AWS Documentation
 
 ## Terraform Project Structure
 
+```text
 AWS-Hospital-Notification-System
 │
 ├── terraform/
