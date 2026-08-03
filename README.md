@@ -221,9 +221,8 @@ The infrastructure follows AWS recommended networking architecture.
 - # 🏗️ Architecture Diagram
 
 The following architecture illustrates the complete workflow of the Hospital Notification System.
-![Project Structure](diagrams/infradiagram.png).
+![Project Structure](diagrams/infradiagram.png)
  
-
 
 ---
 
