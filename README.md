@@ -828,3 +828,314 @@ terraform destroy
 ```
 
 This removes all AWS resources created during the project.
+# 🚀 Future Enhancements
+
+This project demonstrates the foundation of a secure AWS notification system. The following features can be added in future versions.
+
+## Infrastructure
+
+- Auto Scaling Group
+- Application Load Balancer
+- Multi-AZ Deployment
+- Amazon RDS Database
+- Route 53 DNS
+
+---
+
+## Monitoring
+
+- Amazon CloudWatch Metrics
+- CloudWatch Alarms
+- SNS Alerts
+- CloudTrail Logging
+- AWS Config
+
+---
+
+## Security
+
+- AWS WAF
+- AWS Shield
+- Amazon GuardDuty
+- AWS Secrets Manager
+- KMS Encryption
+
+---
+
+## DevOps
+
+- GitHub Actions
+- Jenkins CI/CD Pipeline
+- Docker
+- Kubernetes (Amazon EKS)
+- Terraform Modules
+
+---
+
+## Healthcare Features
+
+- Store Patient Reports in Amazon S3
+- Generate Pre-Signed URLs
+- Secure Report Download
+- SMS Notifications
+- Mobile App Integration
+
+---
+
+# 📚 Learning Outcomes
+
+This project helped me gain practical experience with the following AWS and DevOps concepts.
+
+## Networking
+
+- Custom Amazon VPC
+- CIDR Planning
+- Public & Private Subnets
+- Route Tables
+- Internet Gateway
+- NAT Gateway
+
+---
+
+## Compute
+
+- Amazon EC2
+- Ubuntu Server
+- Session Manager
+- AWS CLI
+
+---
+
+## Security
+
+- IAM Roles
+- Security Groups
+- Least Privilege Access
+- Private Networking
+
+---
+
+## Messaging
+
+- Amazon SNS
+- Email Subscription
+- Publish Notifications
+
+---
+
+## Infrastructure as Code
+
+- Terraform
+- Resource Dependencies
+- Variables
+- Outputs
+- State Management
+
+---
+
+# 🐞 Troubleshooting
+
+## EC2 Session Manager Not Connecting
+
+Possible Reasons
+
+- IAM Role Missing
+- SSM Agent Not Installed
+- No Internet or NAT Gateway
+- Security Group Misconfiguration
+
+Solution
+
+- Attach AmazonSSMManagedInstanceCore Policy
+- Verify NAT Gateway
+- Verify Route Tables
+- Restart SSM Agent
+
+---
+
+## AWS CLI Not Found
+
+Solution
+
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o awscliv2.zip
+
+unzip awscliv2.zip
+
+sudo ./aws/install
+```
+
+---
+
+## SNS Email Not Received
+
+Possible Reasons
+
+- Email Subscription Not Confirmed
+- Wrong Topic ARN
+- Email in Spam Folder
+
+Solution
+
+- Confirm Subscription
+- Verify Topic ARN
+- Publish Again
+
+---
+
+## IAM Role Not Working
+
+Verification
+
+```bash
+aws sts get-caller-identity
+```
+
+Expected Output
+
+```
+HospitalEC2Role
+```
+
+---
+
+# 📖 References
+
+AWS Documentation
+
+- Amazon VPC
+- Amazon EC2
+- Amazon SNS
+- IAM
+- Systems Manager
+- Terraform AWS Provider
+
+---
+
+# 📸 Project Screenshots
+
+## Problem Statement
+
+![Problem Statement](screenshots/01-problem-statement.png)
+
+---
+
+## Route Table
+
+![Route Table](screenshots/02-route-table.png)
+
+---
+
+## Session Manager
+
+![Session Manager](screenshots/03-session-manager.png)
+
+---
+
+## AWS CLI Installation
+
+![AWS CLI](screenshots/04-aws-cli-installation.png)
+
+---
+
+## IAM Role Verification
+
+![IAM Role](screenshots/05-iam-role-verification.png)
+
+---
+
+## SNS Topic
+
+![SNS Topic](screenshots/06-sns-topic.png)
+
+---
+
+## SNS Subscription
+
+![SNS Subscription](screenshots/07-sns-subscription.png)
+
+---
+
+## SNS Publish
+
+![SNS Publish](screenshots/08-sns-publish.png)
+
+---
+
+## Email Notification
+
+![Email Notification](screenshots/09-email-notification.png)
+
+---
+
+## Terraform Project Structure
+
+![Project Structure](screenshots/10-project-structure.png)
+
+---
+
+# 📁 Repository Structure
+
+```text
+AWS-Hospital-Notification-System/
+│
+├── terraform/
+│   ├── provider.tf
+│   ├── variables.tf
+│   ├── vpc.tf
+│   ├── subnet.tf
+│   ├── route.tf
+│   ├── securitygroup.tf
+│   ├── iam.tf
+│   ├── ec2.tf
+│   ├── sns.tf
+│   ├── outputs.tf
+│   └── terraform.tfvars.example
+│
+├── screenshots/
+│   ├── 01-problem-statement.png
+│   ├── 02-route-table.png
+│   ├── 03-session-manager.png
+│   ├── 04-aws-cli-installation.png
+│   ├── 05-iam-role-verification.png
+│   ├── 06-sns-topic.png
+│   ├── 07-sns-subscription.png
+│   ├── 08-sns-publish.png
+│   ├── 09-email-notification.png
+│   └── 10-project-structure.png
+│
+├── diagrams/
+│   └── architecture.png
+│
+├── README.md
+└── .gitignore
+```
+
+---
+
+# 👨‍💻 Author
+
+## Arpan Jena
+
+**AWS | DevOps | Terraform | Linux | Git**
+
+- GitHub: https://github.com/arpanbiki
+- LinkedIn: *(Add your LinkedIn profile here)*
+
+---
+
+# ⭐ If you found this project useful
+
+If you like this project, please consider giving it a ⭐ on GitHub.
+
+It motivates me to build more AWS and DevOps projects.
+
+---
+
+<div align="center">
+
+## ⭐ Thank You for Visiting ⭐
+
+**Happy Learning 🚀**
+
+</div>
