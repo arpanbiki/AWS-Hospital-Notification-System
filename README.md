@@ -221,3 +221,307 @@ The infrastructure follows AWS recommended networking architecture.
 - IAM Role securely authenticates AWS API requests.
 - Systems Manager provides secure terminal access.
 - Amazon SNS delivers patient notifications.
+
+- # 🏗️ Architecture Diagram
+
+The following architecture illustrates the complete workflow of the Hospital Notification System.
+
+> **📌 Replace the placeholder image below with your architecture diagram once you create it.**
+
+```text
+                              Internet
+                                  │
+                           Internet Gateway
+                                  │
+                    ┌────────────────────────┐
+                    │     Public Subnet      │
+                    │                        │
+                    │     NAT Gateway        │
+                    └──────────┬─────────────┘
+                               │
+══════════════════════════════════════════════════════════════
+                      Hospital VPC (10.0.0.0/16)
+══════════════════════════════════════════════════════════════
+                               │
+                    ┌────────────────────────┐
+                    │    Private Subnet      │
+                    │                        │
+                    │  Ubuntu EC2 Instance   │
+                    │ (Hospital Application) │
+                    └──────────┬─────────────┘
+                               │
+                         IAM Role
+                               │
+                        Amazon SNS
+                               │
+                    Email Notification
+                               │
+                           Patient
+```
+
+---
+
+# 🚀 Deployment Guide
+
+## Step 1: Create a Custom VPC
+
+A custom Amazon VPC was created to isolate the hospital application from the public internet.
+
+### Configuration
+
+| Resource | Value |
+|----------|-------|
+| VPC CIDR | 10.0.0.0/16 |
+| Region | us-east-1 |
+
+### Why?
+
+- Provides complete network isolation.
+- Allows creation of public and private subnets.
+- Forms the foundation of the secure infrastructure.
+
+---
+
+## Step 2: Create Public and Private Subnets
+
+Two subnets were created.
+
+| Subnet | Purpose |
+|---------|----------|
+| Public Subnet | Hosts NAT Gateway |
+| Private Subnet | Hosts EC2 Instance |
+
+The EC2 instance is deployed inside the private subnet so it cannot be accessed directly from the internet.
+
+---
+
+## Step 3: Configure Internet Gateway
+
+An Internet Gateway was attached to the VPC.
+
+### Purpose
+
+- Provides internet connectivity for public resources.
+- Required by the NAT Gateway.
+
+---
+
+## Step 4: Configure NAT Gateway
+
+The NAT Gateway was deployed inside the public subnet.
+
+### Purpose
+
+- Allows outbound internet access from the private subnet.
+- Prevents inbound internet access.
+
+### Screenshot
+
+![Route Table](screenshots/02-route-table.png)
+
+---
+
+## Step 5: Configure Route Tables
+
+### Public Route Table
+
+Destination
+
+```text
+0.0.0.0/0
+```
+
+Target
+
+```text
+Internet Gateway
+```
+
+---
+
+### Private Route Table
+
+Destination
+
+```text
+0.0.0.0/0
+```
+
+Target
+
+```text
+NAT Gateway
+```
+
+### Why?
+
+This configuration allows the EC2 instance to install packages and communicate with AWS services without exposing it to the internet.
+
+---
+
+# 🖥️ Step 6: Launch EC2 Instance
+
+An Ubuntu EC2 instance was launched inside the private subnet.
+
+### Configuration
+
+| Setting | Value |
+|----------|-------|
+| AMI | Ubuntu 24.04 LTS |
+| Instance Type | t2.micro |
+| Network | Private Subnet |
+| Public IP | Disabled |
+
+### Why?
+
+The application server remains isolated from public access while still having outbound internet connectivity.
+
+---
+
+# 🔐 Step 7: Configure Security Groups
+
+Inbound Rules
+
+| Type | Source |
+|------|--------|
+| SSH | Not Required |
+| HTTP | As Required |
+
+Outbound Rules
+
+```text
+Allow All Traffic
+```
+
+### Security Benefits
+
+- No public SSH access.
+- Traffic restricted using Security Groups.
+- Access handled through AWS Systems Manager.
+
+---
+
+# 🔑 Step 8: Attach IAM Role
+
+The EC2 instance was attached with an IAM Role instead of storing AWS credentials.
+
+### Attached Policies
+
+- AmazonSNSFullAccess
+- AmazonSSMManagedInstanceCore
+
+### Why?
+
+Using IAM Roles eliminates the need to store AWS Access Keys inside the EC2 instance.
+
+---
+
+# 💻 Step 9: Connect using Session Manager
+
+Instead of SSH, AWS Systems Manager Session Manager was used.
+
+### Advantages
+
+- No SSH key required.
+- No Bastion Host required.
+- No Port 22 exposed.
+- Secure browser-based terminal.
+
+### Screenshot
+
+![Session Manager](screenshots/03-session-manager.png)
+
+---
+
+# ⚙️ Step 10: Install AWS CLI
+
+AWS CLI Version 2 was installed inside the private EC2 instance.
+
+### Installation
+
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o awscliv2.zip
+
+unzip awscliv2.zip
+
+sudo ./aws/install
+```
+
+### Verification
+
+```bash
+aws --version
+```
+
+### Screenshot
+
+![AWS CLI](screenshots/04-aws-cli-installation.png)
+
+---
+
+# 🔍 Step 11: Verify IAM Role
+
+The EC2 instance was verified to be using the attached IAM Role.
+
+### Command
+
+```bash
+aws sts get-caller-identity
+```
+
+### Expected Output
+
+```text
+Account: 359639659504
+
+Role:
+HospitalEC2Role
+```
+
+### Screenshot
+
+![IAM Role Verification](screenshots/05-iam-role-verification.png)
+
+---
+
+# 📋 Terraform Commands
+
+The infrastructure can be provisioned using the following Terraform commands.
+
+```bash
+terraform init
+```
+
+Initializes the Terraform working directory.
+
+---
+
+```bash
+terraform validate
+```
+
+Validates the Terraform configuration.
+
+---
+
+```bash
+terraform plan
+```
+
+Displays the execution plan before creating infrastructure.
+
+---
+
+```bash
+terraform apply
+```
+
+Creates the AWS infrastructure.
+
+---
+
+```bash
+terraform destroy
+```
+
+Deletes all resources created by Terraform.
