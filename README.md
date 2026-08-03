@@ -164,10 +164,6 @@ AWS-Hospital-Notification-System
 │   ├── vpc.tf
 │   ├── subnet.tf
 │   ├── route.tf
-│   ├── securitygroup.tf
-│   ├── iam.tf
-│   ├── ec2.tf
-│   ├── sns.tf
 │   ├── outputs.tf
 │
 ├── screenshots/
@@ -175,8 +171,8 @@ AWS-Hospital-Notification-System
 ├── diagrams/
 │
 ├── README.md
-│
-└── .gitignore
+
+
 ```
 
 Project Folder
