@@ -211,7 +211,7 @@ The infrastructure follows AWS recommended networking architecture.
 - Systems Manager provides secure terminal access.
 - Amazon SNS delivers patient notifications.
 
-- # 🏗️ Architecture Diagram
+# 🏗️ Architecture Diagram
 
 The following architecture illustrates the complete workflow of the Hospital Notification System.
 ![Project Structure](diagrams/infradiagram.png)
