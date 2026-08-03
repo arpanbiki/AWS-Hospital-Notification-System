@@ -525,3 +525,306 @@ terraform destroy
 ```
 
 Deletes all resources created by Terraform.
+# 📧 Amazon SNS Configuration
+
+Amazon Simple Notification Service (SNS) was used to send patient report notifications from the private EC2 instance to subscribed email addresses.
+
+The EC2 instance securely publishes messages using its IAM Role without storing AWS credentials.
+
+---
+
+# 📌 Step 12: Create SNS Topic
+
+An SNS Topic named **HospitalReports** was created.
+
+### Command
+
+```bash
+aws sns create-topic --name HospitalReports
+```
+
+### Purpose
+
+The SNS Topic acts as a communication channel between the Hospital Application and patients.
+
+### Screenshot
+
+![SNS Topic](screenshots/06-sns-topic.png)
+
+---
+
+# 📬 Step 13: Subscribe Email
+
+A patient email address was subscribed to the SNS Topic.
+
+### Command
+
+```bash
+aws sns subscribe \
+  --topic-arn <YOUR_TOPIC_ARN> \
+  --protocol email \
+  --notification-endpoint your-email@example.com
+```
+
+After subscribing, AWS sends a confirmation email.
+
+The user must click **Confirm Subscription** before receiving notifications.
+
+### Screenshot
+
+![SNS Subscription](screenshots/07-sns-subscription.png)
+
+---
+
+# 📤 Step 14: Publish Notification
+
+Once the subscription was confirmed, the EC2 instance published notifications using AWS CLI.
+
+### Command
+
+```bash
+aws sns publish \
+  --topic-arn <YOUR_TOPIC_ARN> \
+  --subject "Hospital Notification" \
+  --message "Your medical report is now available."
+```
+
+### Successful Output
+
+```text
+{
+   "MessageId": "xxxxxxxxxxxxxxxxxxxxxxxx"
+}
+```
+
+### Screenshot
+
+![SNS Publish](screenshots/08-sns-publish.png)
+
+---
+
+# 📩 Step 15: Email Notification
+
+After publishing the message, Amazon SNS successfully delivered the notification to the subscribed email address.
+
+### Screenshot
+
+![Email Notification](screenshots/09-email-notification.png)
+
+---
+
+# 🔄 End-to-End Workflow
+
+```text
+                Patient Report Generated
+                          │
+                          ▼
+             Hospital Application (EC2)
+                          │
+                          ▼
+                  IAM Role Authentication
+                          │
+                          ▼
+                  Amazon SNS Topic
+                          │
+                          ▼
+                 Email Subscription
+                          │
+                          ▼
+                Patient Receives Email
+```
+
+---
+
+# 🧪 Testing & Validation
+
+The following tests were performed to verify the infrastructure.
+
+---
+
+## ✅ Test 1: Verify AWS CLI
+
+```bash
+aws --version
+```
+
+Expected Result
+
+```text
+aws-cli/2.x.x
+```
+
+---
+
+## ✅ Test 2: Verify IAM Role
+
+```bash
+aws sts get-caller-identity
+```
+
+Expected Result
+
+```text
+Arn:
+arn:aws:sts::<ACCOUNT_ID>:assumed-role/HospitalEC2Role/...
+```
+
+---
+
+## ✅ Test 3: Verify SNS Topic
+
+```bash
+aws sns list-topics
+```
+
+Expected Result
+
+```text
+HospitalReports
+```
+
+---
+
+## ✅ Test 4: Verify Subscription
+
+```bash
+aws sns list-subscriptions-by-topic \
+--topic-arn <YOUR_TOPIC_ARN>
+```
+
+Expected Result
+
+```text
+Confirmed
+```
+
+---
+
+## ✅ Test 5: Publish Notification
+
+```bash
+aws sns publish \
+--topic-arn <YOUR_TOPIC_ARN> \
+--subject "Hospital Notification" \
+--message "Patient report is ready."
+```
+
+Expected Result
+
+Patient receives an email notification.
+
+---
+
+# 🔒 Security Implementation
+
+Security was one of the primary goals while designing this infrastructure.
+
+The following AWS best practices were implemented.
+
+---
+
+## Private EC2 Instance
+
+The application server is deployed inside a Private Subnet.
+
+✔ No Public IP
+
+✔ Internet inaccessible
+
+✔ Internal communication only
+
+---
+
+## IAM Role Authentication
+
+Instead of storing AWS Access Keys, the EC2 instance uses an IAM Role.
+
+Benefits
+
+- Temporary Credentials
+- Automatic Credential Rotation
+- No Secret Keys Stored
+
+---
+
+## Systems Manager Session Manager
+
+Remote administration is performed using AWS Systems Manager.
+
+Benefits
+
+- No SSH Keys
+- No Port 22
+- Browser-based Access
+- IAM Controlled Access
+
+---
+
+## Security Groups
+
+Security Groups restrict inbound traffic.
+
+Current configuration
+
+- No public SSH access
+- Only required outbound traffic
+
+---
+
+## NAT Gateway
+
+The NAT Gateway enables outbound internet connectivity while blocking inbound internet access.
+
+Benefits
+
+- Software installation
+- AWS API access
+- Increased security
+
+---
+
+# 📊 Infrastructure Summary
+
+| Component | Status |
+|------------|--------|
+| Custom VPC | ✅ |
+| Public Subnet | ✅ |
+| Private Subnet | ✅ |
+| Internet Gateway | ✅ |
+| NAT Gateway | ✅ |
+| Route Tables | ✅ |
+| Security Groups | ✅ |
+| Ubuntu EC2 | ✅ |
+| IAM Role | ✅ |
+| Session Manager | ✅ |
+| AWS CLI | ✅ |
+| Amazon SNS | ✅ |
+| Email Subscription | ✅ |
+| Notification Delivery | ✅ |
+
+---
+
+# 💰 AWS Cost Considerations
+
+This project was designed using AWS Free Tier eligible resources wherever possible.
+
+Resources that may incur charges:
+
+- NAT Gateway
+- Elastic IP
+- SNS (after Free Tier)
+- Data Transfer
+
+Always destroy unused infrastructure to avoid unexpected costs.
+
+---
+
+# 🧹 Cleanup
+
+Destroy all resources using Terraform.
+
+```bash
+terraform destroy
+```
+
+This removes all AWS resources created during the project.
