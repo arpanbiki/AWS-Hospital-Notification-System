@@ -182,8 +182,30 @@ Project Folder
 ---
 
 # 🔄 Infrastructure Workflow
+```text
+                    Patient Report Generated
+                               │
+                               ▼
+                    Hospital Application
+                               │
+                               ▼
+                 Amazon EC2 (Private Subnet)
+                               │
+                               ▼
+                      IAM Role Authentication
+                               │
+                               ▼
+                       Amazon SNS Topic
+                               │
+                               ▼
+                      Email Notification
+                               │
+                               ▼
+                            Patient
+```
 
-![Project Structure](diagrams/infradiagram.png).
+---
+
 
 # 🏗 Solution Architecture
 
@@ -199,39 +221,9 @@ The infrastructure follows AWS recommended networking architecture.
 - # 🏗️ Architecture Diagram
 
 The following architecture illustrates the complete workflow of the Hospital Notification System.
+![Project Structure](diagrams/infradiagram.png).
+ 
 
-> **📌 Replace the placeholder image below with your architecture diagram once you create it.**
-
-```text
-                              Internet
-                                  │
-                           Internet Gateway
-                                  │
-                    ┌────────────────────────┐
-                    │     Public Subnet      │
-                    │                        │
-                    │     NAT Gateway        │
-                    └──────────┬─────────────┘
-                               │
-══════════════════════════════════════════════════════════════
-                      Hospital VPC (10.0.0.0/16)
-══════════════════════════════════════════════════════════════
-                               │
-                    ┌────────────────────────┐
-                    │    Private Subnet      │
-                    │                        │
-                    │  Ubuntu EC2 Instance   │
-                    │ (Hospital Application) │
-                    └──────────┬─────────────┘
-                               │
-                         IAM Role
-                               │
-                        Amazon SNS
-                               │
-                    Email Notification
-                               │
-                           Patient
-```
 
 ---
 
