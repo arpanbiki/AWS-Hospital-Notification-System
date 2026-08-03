@@ -183,29 +183,7 @@ Project Folder
 
 # 🔄 Infrastructure Workflow
 
-```text
-                    Patient Report Generated
-                               │
-                               ▼
-                    Hospital Application
-                               │
-                               ▼
-                 Amazon EC2 (Private Subnet)
-                               │
-                               ▼
-                      IAM Role Authentication
-                               │
-                               ▼
-                       Amazon SNS Topic
-                               │
-                               ▼
-                      Email Notification
-                               │
-                               ▼
-                            Patient
-```
 
----
 
 # 🏗 Solution Architecture
 
