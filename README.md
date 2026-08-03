@@ -183,7 +183,7 @@ Project Folder
 
 # 🔄 Infrastructure Workflow
 
-
+(diagrams/infradiagram.png)
 
 # 🏗 Solution Architecture
 
