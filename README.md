@@ -1028,7 +1028,16 @@ AWS Documentation
 
 ## Terraform Project Structure
 
-![Project Structure](screenshots/10-project-structure.png)
+AWS-Hospital-Notification-System
+│
+├── terraform/
+│   ├── provider.tf
+│   ├── variables.tf
+│   ├── vpc.tf
+│   ├── subnet.tf
+│   ├── route.tf
+│   ├── outputs.tf
+│
 
 ---
 
